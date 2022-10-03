@@ -1,0 +1,8 @@
+install.packages("lpSolve")
+install.packages("lpSolveAPI")
+library(lpSolveAPI)
+x <- read.lp("weigelt.lp")
+solve(x)
+get.objective(x)
+get.variables(x)
+get.constraints(x)
