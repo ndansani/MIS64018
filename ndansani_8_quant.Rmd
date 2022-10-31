@@ -1,0 +1,168 @@
+---
+title: "ndansani_8"
+author: "Nadia Dansani"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r dea}
+tab <- matrix (c("Branch 1", "Branch 2","Branch 3","Branch 4","Branch 5",
+                100,100,100,100,100,
+                10,15,20,23,30,
+                31,25,30,23,20,
+                1.00,.83,1.00,.92,1.00), ncol=5, byrow=F)
+
+colnames (tab)<- c('DMU', 'Expense', 'Loans','Deposits', 'Efficiency')
+#rownames(tab)<- c('Branch 1','Branch 2', 'Branch 3', 'Branch 4', 'Branch 5')
+tab <- as.table(tab)
+tab
+
+install.packages("Benchmarking")
+library(Benchmarking)
+#Input format
+x<-matrix(c(100,100,100,100,100))
+y<-matrix(c(10,15,20,23,30,
+            31,25,30,23,20),ncol=2)
+colnames(y)<- c("loans","deposits")
+colnames(x)<c ("expenses")
+dea(x,y,RTS ="crs")
+e
+peers(e)
+lambda(e)
+
+e<-dea(x,y,RTS="drs")
+e
+peers(e)
+lambda(e)
+
+e<-dea(x,y,RTS = "irs")
+e
+peers(e)
+lambda(e)
+
+e<-dea(x,y,RTS="vrs")
+e
+peers(e)
+lambda(e)
+
+#install.packages("Benchmarking")
+library(Benchmarking)
+x<- matrix(c(100,100,100,100,100))
+y<-matrix(c(10,15,20,23,30,
+            31,25,30,23,20),ncol=2)
+colnames(y)<- c("loans","deposits")
+colnames(x)<c ("expenses")
+x
+y
+
+e <- dea(x,y,RTS="crs") #provide the input and output
+e
+peers(e) #identify the peers
+lambda(e) #identify the relative weights given to the peers
+
+#Plot of different tech
+library(Benchmarking)
+x<- matrix(c(100,200,300,500),ncol=1,dimnames = list(LETTERS[1:4],"x"))
+y<- matrix(c(75,100,300,400),ncol = 1,dimnames = list(LETTERS[1:4],"y"))
+dea.plot(x,y,RTS="vrs",ORIENTATION="in-out",txt=rownames(x))
+dea.plot(x,y,RTS="drs",ORIENTATION="in-out",add=TRUE,lty="dashed",lwd=2)
+dea.plot(x,y,RTS="irs",ORIENTATION="in-out",add=TRUE,lty="dotted",lwd=3)
+dea.plot(x,y,RTS="crs",ORIENTATION="in-out",add=TRUE,lty="dotted",lwd=4,col="blue")
+
+dea.plot(x,y,RTS="fdh", ORIENTATION="in-out",txt=rownames(x),main="fdh")
+
+dea.plot(x,y,RTS="irs",ORIENTATION="in-out",txt=TRUE,main="irs")
+
+dea.plot(x,y,RTS="irs2",ORIENTATION="in-out",txt=rownames(x),main="add")
+
+#Frontier with 1 input and output
+dea.plot(x,y, main="Basic plot of frontier")
+
+#Calculating Efficiency
+dea.plot(x,y,RTS="vrs",ORIENTATION="in")
+e <- dea(x,y, RTS="vrs", ORIENTATION="in")
+e
+eff(e)
+peers(e)
+peers(e, NAMES=TRUE)
+print(peers(e,NAMES=TRUE), quote=FALSE)
+lambda(e)
+summary(e)
+
+x <- matrix(c(100,200,300,500,600,100),ncol = 1)
+y <- matrix(c (75,100,300,400,400,50),ncol=1)
+           
+dea.plot(x,y,RTS="vrs",ORIENTATION="in-out",txt=LETTERS[1:length(x)]) 
+dea.plot(x,y,RTS="crs",ORIENTATION="in-out",add=TRUE,lty="dashed")
+           
+           dea.plot.frontier(x,y,txt=1:dim(x)[1])
+           
+           n <- 10
+           x <- matrix(1:n,,1)
+           y <- matrix(x^(1.6) + abs(rnorm(n)),,1)
+           dea.plot.frontier(x,y,RTS="irs",txt=1:n)
+           dea.plot.frontier(x,y,RTS="irs2",add=TRUE,lty="dotted")
+           
+           #Two different forms of irs, and two ways to make a frontier
+           id <- sample(1:n,30,replace=TRUE)
+           dea.plot(x[id],y[id],RTS="irs2")
+           
+           #Difference between the FDH tec and addtive FRH tech
+           x <- matrix (c(100,220,300,520,600,100),ncol=1)
+           y <- matrix (c(75,100,300,400,400,50), ncol=1)
+           dea.plot(x,y,RTS="fdh", ORIENTATION="in-out",txt=LETTERS[1:length(x)])
+           dea.plot(x,y,RTS="add",ORIENTATION="in-out",add=TRUE,lty="dashed",lwd=2)
+           dea.plot(x,y,RTS="fdh+",ORIENTATION="in-out",add=TRUE,lty="dotted",lwd=3,col="red")
+           
+           #Parameter in FDH+
+           dea.plot(x,y,RTS="fdh",ORIENTATION="in-out",txt=LETTERS[1:length(x)])
+           dea.plot(x,y,RTS="fdh+",ORIENTATION="in-out",add=TRUE,lty="dashed")
+           dea.plot(x,y,RTS="fdh+",ORIENTATION="in-out",add=TRUE,lty="dotted",param=.5)
+           
+           library(Benchmarking)
+           x <- matrix (c(100,200,300,500,100,200,600),ncol=1)
+           y <- matrix (c(75,100,30,400,25,50,400),ncol=1)
+           dea.plot.frontier(x,y,txt=TRUE)
+           
+           e <- dea(x,y)
+           eff(e)
+           print(e)
+           summary(e)
+           lambda(e)
+           
+           #Input savings potential per firm
+           (1-eff(e))*x
+           (1-e$eff)*x
+           
+           #Calculate slack
+           el <-dea(x,y,SLACK=TRUE)
+           data.frame(e$eff,el$eff,el$slack,el$sx,el$sy)
+           
+           #Fully efficient unit, eff==1 no slack
+           which(eff(e) == 1 & !el$slack)
+           
+           #fdh+ with limits in the interval [.7,1.2]
+           dea(x,y,RTS="fdh+",param=c(.7,1.2))
+           
+           x <- matrix(c(100,200,300,500,100,200,600),ncol=1)
+           y <- matrix(c(75,100,30,400,25,50,400),ncol=1)
+           
+           e <- dea(x,y)
+           peers(e)
+           get.number.peers(e)
+           
+           #Firms with 1 and 4 peers
+           
+           get.which.peers(e, c(1,4))
+```
+
