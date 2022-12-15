@@ -1,0 +1,76 @@
+---
+title: "ndansani_qmmfinal"
+author: "Nadia Dansani"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+The three factors: 
+GPA - shows how devoted someone is in a course as well as being a good benchmark and indicator of their learning abilities.
+Their technical skills indicate how good they are at a the particular course subject being addressed.
+The course interaction shows how much the person interacts in the class which can show how interested and devoted they are to the subject matter. 
+  The technical section has a ranking of 
+  low interaction = 1
+  moderate interaction = 2
+  high interaction = 3
+  GPA - 20%
+  Tecnhical - 40%
+  Course Interaction - 40%
+
+Decision variables are the group assignments for each student =  x_ij
+
+Decision variables:
+x_ij = 1 if the student is in a group else(student is not in a group) = 0
+
+Objective function :
+Maximize sum_{i=1}^{12} sum_{j=1}^{4} x_ij * success_score_i
+
+Constraints:
+
+Each group, j, the sum of the group of students has to equal 3
+sum_{i=1}^{12} x_{ij} = 3
+
+Each student, i, the  sum of each assignment has to equal 
+sum_{j=1}^{4} x_{ij} = 1
+
+With this formualation, the problem can be solved using an lp model. 
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r }
+getwd()
+stdata <- read.csv ("student_groups.csv", header = TRUE, sep = ",")
+
+```
+```{r }
+
+library(lpSolveAPI)
+
+QMM <- read.lp("student.lp")
+
+solve(QMM)
+
+get.objective(QMM) # calculating objective function
+
+get.variables(QMM) # Calculating the decision variables
+
+
+group=c(2,2,3,1,2,1,3,4,1,3,4,4)
+
+final_group=cbind(stdata,group)
+final_group
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
